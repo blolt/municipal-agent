@@ -1,8 +1,18 @@
-# Agentic Bridge
+# Municipal Agent
 
-A microservices architecture for autonomous AI agents that bridges unstructured human intent with deterministic business logic. The system receives natural language input (via Discord or HTTP), routes it through a streaming AI agent powered by LangGraph, and executes tools via the Model Context Protocol (MCP).
+An AI-powered municipal zoning assistant that helps residents, developers, and city staff navigate local zoning codes and land use regulations. Ask questions in plain English — the agent fetches municipal ordinances, builds a knowledge graph, and answers with citations to specific code sections.
 
-The Orchestrator Service is the central "brain" — a LangGraph agent that reasons, calls tools, and responds, all delivered as a real-time SSE stream.
+Built on a streaming microservices architecture: a LangGraph agent orchestrates tool calls via MCP (Model Context Protocol), stores structured zoning data in an Apache AGE property graph, and delivers real-time responses over SSE.
+
+## What It Does
+
+- **Look up zoning rules**: "What uses are permitted in the R1 district?"
+- **Check dimensional standards**: "What's the minimum lot size for a duplex in Detroit?"
+- **Search across codes**: "What does the code say about accessory dwelling units?"
+- **Navigate code structure**: Browse articles, divisions, and sections of any municipality's ordinances
+- **Understand definitions**: "How does the zoning code define 'mixed-use development'?"
+
+The agent automatically fetches code from the [Municode](https://municode.com/) API, ingests it into a knowledge graph, builds recursive summaries, and queries the graph to answer questions — all transparently via tool calls streamed to the user.
 
 ## Architecture
 
@@ -17,7 +27,7 @@ The Orchestrator Service is the central "brain" — a LangGraph agent that reaso
                                             │
                                             ▼
                                      Streaming API
-                               (SSE /v1/agent/run)
+                                   (SSE /v1/agent/run)
                                             │
                    ┌────────────────────────┴───────────────────────┐
                    │                                                │
@@ -38,7 +48,7 @@ The Orchestrator Service is the central "brain" — a LangGraph agent that reaso
 | Service | Port | Purpose |
 |---------|------|---------|
 | **orchestrator-service** | 8000 | Core Agent Brain — LangGraph agent with streaming SSE API |
-| **context-service** | 8001 | Event logging and state persistence (PostgreSQL + AGE + pgvector) |
+| **context-service** | 8001 | Event logging, state persistence, knowledge graph (PostgreSQL + AGE) |
 | **execution-service** | 8002 | Sandboxed MCP tool execution (JSON-RPC 2.0 over stdio) |
 | **discord-service** | 8003 | Discord bot integration — SSE client of the Orchestrator |
 
@@ -49,13 +59,43 @@ The Orchestrator Service is the central "brain" — a LangGraph agent that reaso
 | **PostgreSQL 16** | 5433 | Database with Apache AGE (graph) + pgvector (embeddings) |
 | **Ollama** | 11434 | Local LLM inference (llama3.2:3b for MVP) |
 
+## MCP Tool Servers
+
+The Execution Service manages MCP servers that give the agent its capabilities:
+
+| MCP Server | Tools | Purpose |
+|------------|-------|---------|
+| **municode** | 7 tools | Fetch municipal codes from the Municode REST API — states, municipalities, code structure, section text, search |
+| **knowledge_graph** | 13 tools | Build and query the zoning knowledge graph — ingest sections, build recursive summaries, query permissions/standards/definitions, search by topic |
+| **filesystem** | standard | Read/write files in the shared workspace |
+| **fetch** | standard | HTTP fetch for external resources |
+| **discord** | 3 tools | Send/edit Discord messages, manage reactions |
+
+### Agent Workflow
+
+```
+User: "What's the minimum lot size in Detroit's R1 district?"
+                    │
+                    ▼
+Municode MCP ──► fetch code structure ──► fetch relevant sections
+                    │
+                    ▼
+    KG MCP ──► ingest sections ──► build summaries
+                    │
+                    ▼
+    KG MCP ──► kg_query_standards(district="R1") ──► answer with citation
+```
+
+The Knowledge Graph uses a **RAPTOR-like recursive summary tree** — instead of vector search, it builds summaries bottom-up (section → division → article) and uses the LLM to score relevance at each level, drilling down from broad topics to specific code sections.
+
 ## Tech Stack
 
 - **Language:** Python 3.12
 - **Framework:** FastAPI (all services)
 - **Agent Framework:** LangGraph + LangChain
 - **LLM:** Ollama (llama3.2:3b for MVP)
-- **Database:** PostgreSQL 16 with Apache AGE (graph) + pgvector (embeddings)
+- **Database:** PostgreSQL 16 with Apache AGE (property graph) + pgvector (embeddings)
+- **Knowledge Graph:** Apache AGE with municipal zoning ontology (7 vertex labels, 9 edge labels)
 - **Tool Protocol:** MCP (Model Context Protocol) — JSON-RPC 2.0 over stdio
 - **Streaming:** SSE (Server-Sent Events)
 - **Logging:** structlog (structured logging via shared library)
@@ -79,7 +119,7 @@ curl http://localhost:8003/health  # Discord
 # Send a test message (streaming)
 curl -N http://localhost:8000/v1/agent/run \
   -H "Content-Type: application/json" \
-  -d '{"message": "Hello", "thread_id": "test-1"}'
+  -d '{"message": "What zoning districts exist in Detroit, MI?", "thread_id": "test-1"}'
 ```
 
 ## Development Setup
@@ -125,14 +165,14 @@ docker compose -f tests/integration/docker-compose.test.yml down -v
 ## Project Structure
 
 ```
-agentic-bridge/
+municipal-agent/
 ├── services/
-│   ├── orchestrator-service/   # Core "Brain" — HTTP API + LangGraph agent
-│   ├── context-service/        # Event logging + state persistence
-│   ├── execution-service/      # MCP tool execution sandbox
-│   └── discord-service/        # Discord bot integration
+│   ├── orchestrator-service/   # LangGraph agent — reasoning, tool calls, streaming
+│   ├── context-service/        # Event logging, state, knowledge graph (AGE)
+│   ├── execution-service/      # MCP tool servers (municode, knowledge_graph, etc.)
+│   └── discord-service/        # Discord bot — platform adapter
 ├── libs/
-│   └── agentic-common/         # Shared library (structlog logging)
+│   └── agentic-common/         # Shared library (structlog logging, auth)
 ├── tests/
 │   ├── integration/            # Cross-service integration tests
 │   └── e2e/                    # End-to-end smoke + golden path tests
@@ -156,6 +196,7 @@ from agentic_common import setup_logging, get_logger, bind_context
 
 ## Future Plans
 
-- MCP tool servers (currently bundled with execution-service) may be spun off to separate public repositories as standalone MCP servers
+- MCP tool servers (municode, knowledge_graph) may be spun off to separate public repositories as standalone MCP servers
+- Support for additional municipal data sources beyond Municode
 - GCP Cloud Run deployment (reference architecture in `docs/design/architecture/gcp_deployment.md`)
 - Sidecar deployment pattern for tighter service coupling (design in `docs/design/architecture/sidecar_deployment.md`)

@@ -4,11 +4,11 @@ services:
     build:
       context: ./services/context-service
       dockerfile: Dockerfile
-    container_name: agentic-bridge-postgres-test
+    container_name: municipal-agent-postgres-test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: agentic_bridge_test
+      POSTGRES_DB: municipal_agent_test
     ports:
       - "5434:5432"
     healthcheck:
@@ -21,7 +21,7 @@ services:
     build:
       context: ./services/execution-service
       dockerfile: Dockerfile
-    container_name: agentic-bridge-execution-service-test
+    container_name: municipal-agent-execution-service-test
     environment:
       PORT: 8002
       LOG_LEVEL: DEBUG

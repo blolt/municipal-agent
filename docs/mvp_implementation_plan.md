@@ -1,8 +1,8 @@
-# Agentic Bridge MVP Implementation Plan
+# Municipal Agent MVP Implementation Plan
 
 ## 0. Overview
 
-This document tracks the implementation progress of the Agentic Bridge system. The plan is organized into phases that build upon each other, enabling incremental delivery of value.
+This document tracks the implementation progress of the Municipal Agent system. The plan is organized into phases that build upon each other, enabling incremental delivery of value.
 
 **Steel Thread Use Case:** Conversational AI agent that can reason, execute filesystem tools via MCP, and maintain conversation context across turns.
 

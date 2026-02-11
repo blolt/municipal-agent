@@ -1,10 +1,10 @@
-# Testing Strategy for Agentic Bridge
+# Testing Strategy for Municipal Agent
 
 ---
 
 ## 0. Overview
 
-This document outlines the testing strategy for the Agentic Bridge system. Given the unique challenges of testing LLM-based agentic systems, this strategy balances deterministic testing (where possible) with probabilistic validation (where necessary).
+This document outlines the testing strategy for the Municipal Agent system. Given the unique challenges of testing LLM-based agentic systems, this strategy balances deterministic testing (where possible) with probabilistic validation (where necessary).
 
 ## 0.1 Testing Philosophy
 
@@ -228,7 +228,7 @@ pytest tests/e2e/ -v                 # All E2E tests
 - **Sandbox Files**: `create_sandbox_file()` / `read_sandbox_file()` helpers in E2ETestHarness
 
 ### 6.2 Database State
-- **Integration Tests**: Use test-specific PostgreSQL database (`agentic_bridge_test` on port 5434)
+- **Integration Tests**: Use test-specific PostgreSQL database (`municipal_agent_test` on port 5434)
 - **E2E Tests**: Use full docker-compose stack with main database
 
 ### 6.3 Secrets Management

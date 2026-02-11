@@ -2,7 +2,7 @@
 
 **Status:** Reference Only — Not Yet Deployed
 **Date:** 2026-01-23 (Updated: 2026-02-07)
-**Decision:** Deploy Agentic Bridge on Google Cloud Platform
+**Decision:** Deploy Municipal Agent on Google Cloud Platform
 
 > **Note:** This document is a reference architecture for future GCP deployment. The system currently runs locally via Docker Compose. See `DOCKER_COMPOSE.md` for the current deployment guide.
 
@@ -10,7 +10,7 @@
 
 ## Executive Summary
 
-This document outlines the deployment architecture for Agentic Bridge on GCP, with a phased migration from Docker Compose to fully managed services.
+This document outlines the deployment architecture for Municipal Agent on GCP, with a phased migration from Docker Compose to fully managed services.
 
 **Key Services:**
 - **Compute**: GKE Autopilot (Kubernetes with sidecar pattern)
@@ -260,7 +260,7 @@ Integrate advanced AI services including managed LLMs and knowledge graphs.
 
 **Configuration:**
 ```yaml
-cluster_name: agentic-bridge
+cluster_name: municipal-agent
 region: us-central1
 release_channel: REGULAR
 autopilot: true
@@ -339,13 +339,13 @@ response = model.generate_content("Hello!")
 **Option B: Teardown Strategy**
 ```bash
 # Deploy for testing
-gcloud compute instances start agentic-bridge
+gcloud compute instances start municipal-agent
 
 # Tear down after testing (no charges)
-gcloud compute instances stop agentic-bridge
+gcloud compute instances stop municipal-agent
 
 # Delete entirely when not needed
-gcloud compute instances delete agentic-bridge
+gcloud compute instances delete municipal-agent
 ```
 
 **Costs when stopped:**
@@ -506,7 +506,7 @@ jobs:
           
       - name: Deploy to GKE
         run: |
-          gcloud container clusters get-credentials agentic-bridge
+          gcloud container clusters get-credentials municipal-agent
           kubectl apply -f k8s/
 ```
 

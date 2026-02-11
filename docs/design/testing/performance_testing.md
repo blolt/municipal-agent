@@ -4,7 +4,7 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for performance testing in the Agentic Bridge system. Performance testing ensures the system meets latency, throughput, and resource utilization requirements under various load conditions. This is critical for maintaining a good user experience and controlling infrastructure costs.
+This document defines standards and best practices for performance testing in the Municipal Agent system. Performance testing ensures the system meets latency, throughput, and resource utilization requirements under various load conditions. This is critical for maintaining a good user experience and controlling infrastructure costs.
 
 ## 0.1 Glossary
 
@@ -23,7 +23,7 @@ This document defines standards and best practices for performance testing in th
 
 ### 1.1 What Performance Tests Cover
 
-Performance tests in Agentic Bridge verify:
+Performance tests in Municipal Agent verify:
 
 1. **Latency Requirements**
    - End-to-end response time

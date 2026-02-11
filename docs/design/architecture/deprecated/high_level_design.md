@@ -1,4 +1,4 @@
-# Agentic Bridge: High-Level System Design
+# Municipal Agent: High-Level System Design
 
 > **DEPRECATED** (2026-02-07): This document has been superseded by the current `system_architecture.md` in `docs/design/architecture/`. Preserved for historical reference.
 
@@ -6,7 +6,7 @@
 
 ## 1. Problem Statement
 
-Business processes often require bridging two distinct domains: the **Unstructured Domain** of human communication (emails, chat logs, intent) and the **Structured Domain** of computational logic (databases, solvers, quantitative data). The **Agentic Bridge** system automates workflows that span these domains by reliably translating unstructured intent into structured execution.
+Business processes often require bridging two distinct domains: the **Unstructured Domain** of human communication (emails, chat logs, intent) and the **Structured Domain** of computational logic (databases, solvers, quantitative data). The **Municipal Agent** system automates workflows that span these domains by reliably translating unstructured intent into structured execution.
 
 ## 2. Functional Capabilities
 

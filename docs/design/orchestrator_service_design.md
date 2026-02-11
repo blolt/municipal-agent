@@ -4,7 +4,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Orchestrator Service** is the central execution engine of the Agentic Bridge. It hosts the LangGraph agent runtime and exposes a streaming SSE API that emits fine-grained events (reasoning tokens, tool status) as they occur.
+The **Orchestrator Service** is the central execution engine of the Municipal Agent. It hosts the LangGraph agent runtime and exposes a streaming SSE API that emits fine-grained events (reasoning tokens, tool status) as they occur.
 
 The service is **stateless at the process level** — any instance can handle any request because conversation state is offloaded to PostgreSQL via LangGraph's `AsyncPostgresSaver`.
 

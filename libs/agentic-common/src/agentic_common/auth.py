@@ -1,4 +1,4 @@
-"""Service-to-service JWT authentication for Agentic Bridge.
+"""Service-to-service JWT authentication for Municipal Agent.
 
 Provides HS256 JWT token generation and verification for securing
 internal service communication within the Docker Compose network.

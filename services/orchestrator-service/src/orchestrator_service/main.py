@@ -123,7 +123,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Orchestrator Service",
-    description="LangGraph-based agent orchestration for Agentic Bridge",
+    description="LangGraph-based agent orchestration for Municipal Agent",
     version="0.1.0",
     lifespan=lifespan,
 )

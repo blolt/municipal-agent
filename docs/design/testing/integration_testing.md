@@ -4,13 +4,13 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for integration testing in the Agentic Bridge system. Integration tests verify that multiple components work correctly together, focusing on service boundaries, database interactions, and HTTP communication between services.
+This document defines standards and best practices for integration testing in the Municipal Agent system. Integration tests verify that multiple components work correctly together, focusing on service boundaries, database interactions, and HTTP communication between services.
 
 ## 1. Scope and Objectives
 
 ### 1.1 What Integration Tests Cover
 
-Integration tests in Agentic Bridge verify:
+Integration tests in Municipal Agent verify:
 
 1. **Service-to-Service Communication**
    - Orchestrator Service ↔ Context Service (HTTP API calls)
@@ -46,11 +46,11 @@ services:
     build:
       context: ./services/context-service
       dockerfile: Dockerfile                    # PostgreSQL 16 + AGE + pgvector
-    container_name: agentic-bridge-postgres-test
+    container_name: municipal-agent-postgres-test
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: agentic_bridge_test
+      POSTGRES_DB: municipal_agent_test
     ports:
       - "5434:5432"                             # Port 5434 to avoid conflict with dev
     healthcheck:
@@ -63,7 +63,7 @@ services:
     build:
       context: ./services/execution-service
       dockerfile: Dockerfile
-    container_name: agentic-bridge-execution-service-test
+    container_name: municipal-agent-execution-service-test
     environment:
       PORT: 8002
       LOG_LEVEL: DEBUG
@@ -253,10 +253,10 @@ def test_execution_service_tool_discovery(execution_client):
 docker compose -f docker-compose.test.yml logs execution-service
 
 # Check database state
-docker exec agentic-bridge-postgres-test psql -U postgres -d agentic_bridge_test -c "SELECT * FROM events LIMIT 10"
+docker exec municipal-agent-postgres-test psql -U postgres -d municipal_agent_test -c "SELECT * FROM events LIMIT 10"
 
 # Check sandbox files
-docker exec agentic-bridge-execution-service-test ls -la /app/sandbox
+docker exec municipal-agent-execution-service-test ls -la /app/sandbox
 ```
 
 ## 6. Metrics

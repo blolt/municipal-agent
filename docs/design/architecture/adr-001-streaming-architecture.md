@@ -7,7 +7,7 @@
 
 ## Context
 
-The Agentic Bridge system currently supports **asynchronous batch processing** via message queues:
+The Municipal Agent system currently supports **asynchronous batch processing** via message queues:
 
 ```
 [Discord/Slack/Email] → Ingress → Queue → Orchestrator → Queue → Egress

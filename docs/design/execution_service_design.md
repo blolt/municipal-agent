@@ -4,7 +4,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Execution Service** provides sandboxed tool discovery and execution for the Agentic Bridge system. It manages MCP (Model Context Protocol) server subprocesses, discovers available tools, validates execution arguments (including filesystem path sandboxing), and routes tool calls to the correct MCP server.
+The **Execution Service** provides sandboxed tool discovery and execution for the Municipal Agent system. It manages MCP (Model Context Protocol) server subprocesses, discovers available tools, validates execution arguments (including filesystem path sandboxing), and routes tool calls to the correct MCP server.
 
 The service acts as a security boundary between the agent's tool requests and the host system.
 

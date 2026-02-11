@@ -50,7 +50,7 @@ async def lifespan(app: FastAPI):
 # Create FastAPI app
 app = FastAPI(
     title="Execution Service",
-    description="MCP tool execution service for Agentic Bridge",
+    description="MCP tool execution service for Municipal Agent",
     version="0.1.0",
     lifespan=lifespan,
 )

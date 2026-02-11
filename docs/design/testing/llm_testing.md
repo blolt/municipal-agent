@@ -4,7 +4,7 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for testing LLM-based components in the Agentic Bridge system. Unlike traditional software testing, LLM testing must account for non-determinism, probabilistic outputs, and emergent behaviors. This document provides strategies for testing agent reasoning, tool selection, response quality, and safety guardrails.
+This document defines standards and best practices for testing LLM-based components in the Municipal Agent system. Unlike traditional software testing, LLM testing must account for non-determinism, probabilistic outputs, and emergent behaviors. This document provides strategies for testing agent reasoning, tool selection, response quality, and safety guardrails.
 
 ## 0.1 Glossary
 
@@ -24,7 +24,7 @@ This document defines standards and best practices for testing LLM-based compone
 
 ### 1.1 What LLM Tests Cover
 
-LLM tests in Agentic Bridge verify:
+LLM tests in Municipal Agent verify:
 
 1. **Tool Selection Accuracy**
    - Agent chooses the correct tool for a given query
@@ -469,7 +469,7 @@ def test_prompt_performance(prompt_version, golden_dataset):
 ```python
 import os
 os.environ["LANGCHAIN_TRACING_V2"] = "true"
-os.environ["LANGCHAIN_PROJECT"] = "agentic-bridge-tests"
+os.environ["LANGCHAIN_PROJECT"] = "municipal-agent-tests"
 
 from langchain.callbacks import tracing_v2_enabled
 

@@ -1,4 +1,4 @@
-"""Structured logging configuration for Agentic Bridge services.
+"""Structured logging configuration for Municipal Agent services.
 
 Implements the logging best practices from docs/design/logging_best_practices.md:
 - structlog for structured JSON logging

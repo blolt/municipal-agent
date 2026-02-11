@@ -6,7 +6,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Agent Registry Service** (formerly Management Service) is the source of truth for all persistent configuration in the Agentic Bridge system. It manages the lifecycle of Agents, Customers, API Keys, and Billing state.
+The **Agent Registry Service** (formerly Management Service) is the source of truth for all persistent configuration in the Municipal Agent system. It manages the lifecycle of Agents, Customers, API Keys, and Billing state.
 
 By separating this "slow-changing" configuration data from the "fast-changing" runtime state (Orchestrator), we achieve:
 1.  **Separation of Concerns:** The Orchestrator focuses purely on execution logic.

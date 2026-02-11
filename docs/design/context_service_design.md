@@ -4,7 +4,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Context Service** provides immutable event logging and knowledge retrieval for the Agentic Bridge system. It records every agent invocation as a structured event and exposes a query interface for knowledge graph traversal via Apache AGE.
+The **Context Service** provides immutable event logging and knowledge retrieval for the Municipal Agent system. It records every agent invocation as a structured event and exposes a query interface for knowledge graph traversal via Apache AGE.
 
 The service is the system's audit trail and long-term memory layer, separate from the Orchestrator's short-term checkpoint state.
 
@@ -157,7 +157,7 @@ class InternalEvent(BaseModel):
 
 | Variable | Default | Description |
 |----------|---------|-------------|
-| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5433/agentic_bridge` | PostgreSQL connection |
+| `DATABASE_URL` | `postgresql://postgres:postgres@localhost:5433/municipal_agent` | PostgreSQL connection |
 | `DATABASE_POOL_MIN_SIZE` | `2` | Minimum connection pool size |
 | `DATABASE_POOL_MAX_SIZE` | `10` | Maximum connection pool size |
 | `LOG_LEVEL` | `INFO` | Logging level |

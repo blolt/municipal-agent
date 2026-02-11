@@ -4,7 +4,7 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for unit testing in the Agentic Bridge system. Unit tests verify individual functions, classes, and modules in isolation, focusing on business logic, data transformations, and utility functions.
+This document defines standards and best practices for unit testing in the Municipal Agent system. Unit tests verify individual functions, classes, and modules in isolation, focusing on business logic, data transformations, and utility functions.
 
 **Language**: All services are Python 3.12. There are no TypeScript/JavaScript services.
 
@@ -12,7 +12,7 @@ This document defines standards and best practices for unit testing in the Agent
 
 ### 1.1 What Unit Tests Cover
 
-Unit tests in Agentic Bridge verify:
+Unit tests in Municipal Agent verify:
 
 1. **Business Logic** — Data validation rules, state transitions, decision logic
 2. **Pure Functions** — Input/output transformations, data parsing, utility functions

@@ -107,7 +107,7 @@ The LLM acts as relevance scorer at each level. Returns a reasoning trace showin
 
 Ported from `strongtowns-detroit` RDF/OWL ontology to AGE property graph:
 
-| RDF (strongtowns-detroit) | AGE (agentic-bridge) |
+| RDF (strongtowns-detroit) | AGE (municipal-agent) |
 |---------------------------|---------------------|
 | `mzo:Section` (OWL Class) | `CodeSection` vertex |
 | `mzo:UsePermission` (reified node) | `PERMITS`/`CONDITIONALLY_PERMITS` edge |

@@ -4,7 +4,7 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for contract testing in the Agentic Bridge system. Contract tests verify that services honor their API contracts, ensuring that changes to one service don't break consumers. This is especially critical in a microservices architecture where services evolve independently.
+This document defines standards and best practices for contract testing in the Municipal Agent system. Contract tests verify that services honor their API contracts, ensuring that changes to one service don't break consumers. This is especially critical in a microservices architecture where services evolve independently.
 
 ## 0.1 Glossary
 
@@ -23,7 +23,7 @@ This document defines standards and best practices for contract testing in the A
 
 ### 1.1 What Contract Tests Cover
 
-Contract tests in Agentic Bridge verify:
+Contract tests in Municipal Agent verify:
 
 1. **REST API Contracts**
    - Request/response schemas

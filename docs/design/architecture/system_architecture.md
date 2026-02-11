@@ -1,8 +1,8 @@
-# Agentic Bridge: System Architecture
+# Municipal Agent: System Architecture
 
 ## 0. Customer Purpose & High-Level Overview
 
-Agentic Bridge enables businesses to deploy autonomous AI agents that translate unstructured human intent into deterministic business actions. Users interact with agents through platform integrations (Discord) and receive real-time, streaming responses as the agent reasons and executes tools.
+Municipal Agent enables businesses to deploy autonomous AI agents that translate unstructured human intent into deterministic business actions. Users interact with agents through platform integrations (Discord) and receive real-time, streaming responses as the agent reasons and executes tools.
 
 The system follows a **streaming-first architecture** where the Orchestrator Service always executes in streaming mode, emitting fine-grained Server-Sent Events (SSE) that clients consume directly.
 

@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "execution-service"
 version = "0.1.0"
-description = "Execution Service for Agentic Bridge - MCP tool execution layer"
-authors = ["Agentic Bridge Team"]
+description = "Execution Service for Municipal Agent - MCP tool execution layer"
+authors = ["Municipal Agent Team"]
 readme = "README.md"
 packages = [{include = "src"}]
 

@@ -2,7 +2,7 @@
 name = "orchestrator-service"
 version = "0.1.0"
 description = "LangGraph-based agent orchestration service"
-authors = ["Agentic Bridge Team"]
+authors = ["Municipal Agent Team"]
 
 [tool.poetry.dependencies]
 python = "^3.11"

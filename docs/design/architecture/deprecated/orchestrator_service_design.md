@@ -6,7 +6,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Orchestrator Service** is the central decision-making component of the Agentic Bridge. It is responsible for the "Execution Cycle"—the continuous cycle of observing events, deciding on actions, calling models via the model gateway, retrieving knowledge from the context service, executing tools through the execution service, and reflecting on outcomes. In short, it is responsible for orchestration.
+The **Orchestrator Service** is the central decision-making component of the Municipal Agent. It is responsible for the "Execution Cycle"—the continuous cycle of observing events, deciding on actions, calling models via the model gateway, retrieving knowledge from the context service, executing tools through the execution service, and reflecting on outcomes. In short, it is responsible for orchestration.
 
 ### 0.1 Glossary
 

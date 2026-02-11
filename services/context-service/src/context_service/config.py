@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     )
 
     # Database configuration
-    database_url: str = "postgresql://postgres:postgres@localhost:5432/agentic_bridge"
+    database_url: str = "postgresql://postgres:postgres@localhost:5432/municipal_agent"
     database_pool_min_size: int = 2
     database_pool_max_size: int = 10
 

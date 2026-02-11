@@ -1,4 +1,4 @@
-"""End-to-end test harness for Agentic Bridge system."""
+"""End-to-end test harness for Municipal Agent system."""
 import os
 import time
 import httpx

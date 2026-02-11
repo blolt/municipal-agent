@@ -75,7 +75,7 @@ healthcheck:
 Check health status:
 
 ```bash
-docker inspect agentic-bridge-execution-service --format='{{.State.Health.Status}}'
+docker inspect municipal-agent-execution-service --format='{{.State.Health.Status}}'
 ```
 
 ## Testing Containerized Service
@@ -83,7 +83,7 @@ docker inspect agentic-bridge-execution-service --format='{{.State.Health.Status
 ### 1. Create a test file
 
 ```bash
-docker exec agentic-bridge-execution-service sh -c 'echo "test" > /app/sandbox/test.txt'
+docker exec municipal-agent-execution-service sh -c 'echo "test" > /app/sandbox/test.txt'
 ```
 
 ### 2. Read via API
@@ -105,7 +105,7 @@ curl -X POST http://localhost:8002/execute \
 ### 4. Verify file was created
 
 ```bash
-docker exec agentic-bridge-execution-service cat /app/sandbox/new.txt
+docker exec municipal-agent-execution-service cat /app/sandbox/new.txt
 ```
 
 ## Building the Image
@@ -138,8 +138,8 @@ docker-compose logs execution-service
 The container includes Node.js for MCP servers. Verify:
 
 ```bash
-docker exec agentic-bridge-execution-service node --version
-docker exec agentic-bridge-execution-service npx --version
+docker exec municipal-agent-execution-service node --version
+docker exec municipal-agent-execution-service npx --version
 ```
 
 ### Sandbox permissions
@@ -147,8 +147,8 @@ docker exec agentic-bridge-execution-service npx --version
 If you encounter permission errors:
 
 ```bash
-docker exec agentic-bridge-execution-service ls -la /app/sandbox
-docker exec agentic-bridge-execution-service chmod 777 /app/sandbox
+docker exec municipal-agent-execution-service ls -la /app/sandbox
+docker exec municipal-agent-execution-service chmod 777 /app/sandbox
 ```
 
 ### Reset sandbox

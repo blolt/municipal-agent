@@ -1,4 +1,4 @@
-"""Internal event schema and routing context for Agentic Bridge.
+"""Internal event schema and routing context for Municipal Agent.
 
 This module defines the canonical event format used throughout the system.
 All external events are normalized to InternalEvent before being published to the queue.
@@ -62,7 +62,7 @@ class RoutingContext(BaseModel):
 
 
 class InternalEvent(BaseModel):
-    """Canonical event schema for the Agentic Bridge system.
+    """Canonical event schema for the Municipal Agent system.
 
     All external payloads are normalized to this format before processing.
     """

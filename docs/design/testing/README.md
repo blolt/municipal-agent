@@ -1,6 +1,6 @@
 # Testing Documentation Structure
 
-The Agentic Bridge testing strategy is organized into the following documents:
+The Municipal Agent testing strategy is organized into the following documents:
 
 ## Overview
 - **[Testing Strategy](testing_strategy.md)**: Comprehensive overview of the testing philosophy, pyramid, and CI/CD integration

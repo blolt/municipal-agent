@@ -1,6 +1,6 @@
 # Context Service
 
-The **Context Service** is the state management and knowledge retrieval layer for the Agentic Bridge system. It provides persistent storage for agent execution state, event logging, and graph-based knowledge queries.
+The **Context Service** is the state management and knowledge retrieval layer for the Municipal Agent system. It provides persistent storage for agent execution state, event logging, and graph-based knowledge queries.
 
 ## Features
 
@@ -52,12 +52,12 @@ context-service/
    cd services/context-service
    
    # Using Docker exec (recommended - no psql client needed)
-   docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < migrations/001_create_relational_schema.sql
-   docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < migrations/002_setup_age_extension.sql
-   docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < migrations/003_setup_pgvector.sql
+   docker exec -i municipal-agent-postgres psql -U postgres -d municipal_agent < migrations/001_create_relational_schema.sql
+   docker exec -i municipal-agent-postgres psql -U postgres -d municipal_agent < migrations/002_setup_age_extension.sql
+   docker exec -i municipal-agent-postgres psql -U postgres -d municipal_agent < migrations/003_setup_pgvector.sql
    
    # Verify migrations
-   docker exec agentic-bridge-postgres psql -U postgres -d agentic_bridge -c "\dt"
+   docker exec municipal-agent-postgres psql -U postgres -d municipal_agent -c "\dt"
    ```
 
 3. **Configure Environment**:
@@ -128,7 +128,7 @@ Visit `http://localhost:8001/docs` for interactive Swagger UI documentation.
 
 ```bash
 # Check tables exist
-docker exec agentic-bridge-postgres psql -U postgres -d agentic_bridge -c "\dt"
+docker exec municipal-agent-postgres psql -U postgres -d municipal_agent -c "\dt"
 
 # Expected output:
 #             List of relations
@@ -183,7 +183,7 @@ docker exec agentic-bridge-postgres psql -U postgres -d agentic_bridge -c "\dt"
 
 5. **Verify in Database**:
    ```bash
-   docker exec agentic-bridge-postgres psql -U postgres -d agentic_bridge \
+   docker exec municipal-agent-postgres psql -U postgres -d municipal_agent \
      -c "SELECT event_id, event_type, source, created_at FROM events ORDER BY created_at DESC LIMIT 5;"
    ```
 
@@ -219,7 +219,7 @@ The service uses environment variables for configuration. Copy `.env.example` to
 
 | Variable | Description | Default |
 |----------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/agentic_bridge` |
+| `DATABASE_URL` | PostgreSQL connection string | `postgresql://postgres:postgres@localhost:5432/municipal_agent` |
 | `DATABASE_POOL_MIN_SIZE` | Minimum connection pool size | `2` |
 | `DATABASE_POOL_MAX_SIZE` | Maximum connection pool size | `10` |
 | `LOG_LEVEL` | Logging level (DEBUG, INFO, WARNING, ERROR) | `INFO` |
@@ -229,7 +229,7 @@ The service uses environment variables for configuration. Copy `.env.example` to
 
 ```bash
 # .env
-DATABASE_URL=postgresql://postgres:postgres@localhost:5432/agentic_bridge
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/municipal_agent
 DATABASE_POOL_MIN_SIZE=2
 DATABASE_POOL_MAX_SIZE=10
 LOG_LEVEL=INFO
@@ -276,7 +276,7 @@ Migrations are plain SQL files in the `migrations/` directory:
 
 To apply migrations:
 ```bash
-docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < migrations/00X_migration_name.sql
+docker exec -i municipal-agent-postgres psql -U postgres -d municipal_agent < migrations/00X_migration_name.sql
 ```
 
 ## Troubleshooting
@@ -285,7 +285,7 @@ docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < migr
 
 Ensure the database is created:
 ```bash
-docker exec agentic-bridge-postgres psql -U postgres -c "SELECT datname FROM pg_database WHERE datname='agentic_bridge';"
+docker exec municipal-agent-postgres psql -U postgres -c "SELECT datname FROM pg_database WHERE datname='municipal_agent';"
 ```
 
 If not found, the migrations will create it automatically.
@@ -299,7 +299,7 @@ If not found, the migrations will create it automatically.
 
 2. Check if PostgreSQL is healthy:
    ```bash
-   docker exec agentic-bridge-postgres pg_isready -U postgres
+   docker exec municipal-agent-postgres pg_isready -U postgres
    ```
 
 3. Verify port 5432 is accessible:
@@ -317,7 +317,7 @@ If not found, the migrations will create it automatically.
 
 ```bash
 # Docker container logs
-docker logs agentic-bridge-postgres
+docker logs municipal-agent-postgres
 
 # Service logs (if running via nohup)
 tail -f /tmp/context-service.log
@@ -352,4 +352,4 @@ LOG_LEVEL=DEBUG poetry run uvicorn context_service.main:app --port 8001
 
 ## License
 
-Part of the Agentic Bridge project.
+Part of the Municipal Agent project.

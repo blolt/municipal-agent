@@ -1,4 +1,4 @@
-"""Agentic Common - Shared utilities for Agentic Bridge services."""
+"""Agentic Common - Shared utilities for Municipal Agent services."""
 
 from agentic_common.auth import (
     ServiceAuthDependency,

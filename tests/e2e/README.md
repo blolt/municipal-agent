@@ -1,6 +1,6 @@
 # E2E Tests
 
-End-to-end tests for the Agentic Bridge system.
+End-to-end tests for the Municipal Agent system.
 
 ## Setup
 

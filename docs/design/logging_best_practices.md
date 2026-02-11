@@ -45,7 +45,7 @@ Strict discipline on log levels reduces noise:
 *   **INFO**: Key lifecycle events (e.g., "Service started", "Job completed"). **Do not log every step of a loop here.**
 *   **DEBUG**: Granular details for development (e.g., "Payload content", "Variable state"). **Disabled by default in production.**
 
-## 3. Implementation Strategy for Agentic Bridge
+## 3. Implementation Strategy for Municipal Agent
 
 To solve the "too verbose" issue and separate concerns:
 

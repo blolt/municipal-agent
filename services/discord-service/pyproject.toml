@@ -1,8 +1,8 @@
 [tool.poetry]
 name = "discord-service"
 version = "0.1.0"
-description = "Discord Platform Adapter for Agentic Bridge"
-authors = ["Agentic Bridge Team"]
+description = "Discord Platform Adapter for Municipal Agent"
+authors = ["Municipal Agent Team"]
 readme = "README.md"
 packages = [{include = "src"}]
 

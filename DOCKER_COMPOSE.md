@@ -1,6 +1,6 @@
-# Agentic Bridge - Docker Compose Guide
+# Municipal Agent - Docker Compose Guide
 
-This guide explains how to run the complete Agentic Bridge system using Docker Compose.
+This guide explains how to run the complete Municipal Agent system using Docker Compose.
 
 ## Services
 
@@ -83,7 +83,7 @@ discord-service
 ### PostgreSQL
 - `POSTGRES_USER`: Database user (default: `postgres`)
 - `POSTGRES_PASSWORD`: Database password (default: `postgres`)
-- `POSTGRES_DB`: Database name (default: `agentic_bridge`)
+- `POSTGRES_DB`: Database name (default: `municipal_agent`)
 
 ### Context Service
 - `DATABASE_URL`: PostgreSQL connection string
@@ -160,10 +160,10 @@ docker-compose logs --tail=100 orchestrator-service
 ### Execute Commands in Container
 ```bash
 # PostgreSQL
-docker exec -it agentic-bridge-postgres psql -U postgres -d agentic_bridge
+docker exec -it municipal-agent-postgres psql -U postgres -d municipal_agent
 
 # Check sandbox files
-docker exec -it agentic-bridge-execution-service ls -la /workspace
+docker exec -it municipal-agent-execution-service ls -la /workspace
 ```
 
 ## Ollama Model Management
@@ -172,13 +172,13 @@ Ollama requires pulling a model on first use:
 
 ```bash
 # Pull the default model
-docker exec -it agentic-bridge-ollama ollama pull llama3.2:3b
+docker exec -it municipal-agent-ollama ollama pull llama3.2:3b
 
 # List available models
-docker exec -it agentic-bridge-ollama ollama list
+docker exec -it municipal-agent-ollama ollama list
 
 # Test model directly
-docker exec -it agentic-bridge-ollama ollama run llama3.2:3b "Hello"
+docker exec -it municipal-agent-ollama ollama run llama3.2:3b "Hello"
 ```
 
 The Ollama data volume (`ollama_data`) persists models across container restarts.
@@ -196,7 +196,7 @@ All services include health checks:
 
 Check health status:
 ```bash
-docker inspect agentic-bridge-orchestrator-service --format='{{.State.Health.Status}}'
+docker inspect municipal-agent-orchestrator-service --format='{{.State.Health.Status}}'
 ```
 
 ## Volumes
@@ -243,29 +243,29 @@ docker-compose logs orchestrator-service
 
 1. Verify PostgreSQL is healthy:
    ```bash
-   docker exec agentic-bridge-postgres pg_isready -U postgres
+   docker exec municipal-agent-postgres pg_isready -U postgres
    ```
 
 2. Check database exists:
    ```bash
-   docker exec agentic-bridge-postgres psql -U postgres -c "\l"
+   docker exec municipal-agent-postgres psql -U postgres -c "\l"
    ```
 
 3. Apply migrations if needed:
    ```bash
-   docker exec -i agentic-bridge-postgres psql -U postgres -d agentic_bridge < services/context-service/migrations/001_create_relational_schema.sql
+   docker exec -i municipal-agent-postgres psql -U postgres -d municipal_agent < services/context-service/migrations/001_create_relational_schema.sql
    ```
 
 ### Ollama Issues
 
 1. Check Ollama is running:
    ```bash
-   docker exec agentic-bridge-ollama ollama list
+   docker exec municipal-agent-ollama ollama list
    ```
 
 2. Verify model is pulled:
    ```bash
-   docker exec agentic-bridge-ollama ollama pull llama3.2:3b
+   docker exec municipal-agent-ollama ollama pull llama3.2:3b
    ```
 
 3. Ollama first startup can be slow (downloading model). Check logs:
@@ -282,14 +282,14 @@ docker-compose logs orchestrator-service
 
 2. Check connection to Orchestrator:
    ```bash
-   docker exec agentic-bridge-discord-service curl -f http://orchestrator-service:8000/health
+   docker exec municipal-agent-discord-service curl -f http://orchestrator-service:8000/health
    ```
 
 ### Execution Service Sandbox Issues
 
 Check sandbox directory:
 ```bash
-docker exec agentic-bridge-execution-service ls -la /workspace
+docker exec municipal-agent-execution-service ls -la /workspace
 ```
 
 ## Development Workflow

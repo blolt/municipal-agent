@@ -3,11 +3,11 @@ services:
     build:
       context: ./services/context-service
       dockerfile: Dockerfile # This builds the PostgreSQL image with AGE + pgvector
-    container_name: agentic-bridge-postgres
+    container_name: municipal-agent-postgres
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: agentic_bridge
+      POSTGRES_DB: municipal_agent
     ports:
       - "5433:5432"
     volumes:
@@ -20,7 +20,7 @@ services:
 
   ollama:
     image: ollama/ollama:latest
-    container_name: agentic-bridge-ollama
+    container_name: municipal-agent-ollama
     ports:
       - "11434:11434"
     volumes:
@@ -36,12 +36,12 @@ services:
     build:
       context: .
       dockerfile: services/context-service/Dockerfile.app # This builds the Context Service application
-    container_name: agentic-bridge-context-service
+    container_name: municipal-agent-context-service
     depends_on:
       postgres:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_bridge
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/municipal_agent
       DATABASE_POOL_MIN_SIZE: 2
       DATABASE_POOL_MAX_SIZE: 10
       SERVICE_AUTH_SECRET: ${SERVICE_AUTH_SECRET:-dev-secret-change-me}
@@ -60,7 +60,7 @@ services:
     build:
       context: .
       dockerfile: services/execution-service/Dockerfile
-    container_name: agentic-bridge-execution-service
+    container_name: municipal-agent-execution-service
     depends_on:
       context-service:
         condition: service_healthy
@@ -92,7 +92,7 @@ services:
     build:
       context: .
       dockerfile: services/orchestrator-service/Dockerfile
-    container_name: agentic-bridge-orchestrator-service
+    container_name: municipal-agent-orchestrator-service
     depends_on:
       postgres:
         condition: service_healthy
@@ -103,7 +103,7 @@ services:
       execution-service:
         condition: service_healthy
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_bridge
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/municipal_agent
       CONTEXT_SERVICE_URL: http://context-service:8001
       EXECUTION_SERVICE_URL: http://execution-service:8002
       OLLAMA_BASE_URL: http://ollama:11434
@@ -127,7 +127,7 @@ services:
     build:
       context: .
       dockerfile: services/discord-service/Dockerfile
-    container_name: agentic-bridge-discord-service
+    container_name: municipal-agent-discord-service
     environment:
       DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
       DISCORD_APPLICATION_ID: ${DISCORD_APPLICATION_ID:-}

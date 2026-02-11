@@ -1,10 +1,10 @@
 # Orchestrator Service
 
-LangGraph-based agent orchestration service for the Agentic Bridge platform.
+LangGraph-based agent orchestration service for the Municipal Agent platform.
 
 ## Overview
 
-The Orchestrator Service is the "brain" of the Agentic Bridge. It:
+The Orchestrator Service is the "brain" of the Municipal Agent. It:
 - Executes LangGraph-based agent workflows
 - Manages conversation state via PostgreSQL checkpoints
 - Integrates with Context Service for event logging and knowledge queries

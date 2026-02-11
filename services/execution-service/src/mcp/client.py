@@ -42,7 +42,7 @@ class MCPClient:
         init_result = await self._send_request("initialize", {
             "protocolVersion": "2024-11-05",
             "capabilities": {},
-            "clientInfo": {"name": "agentic-bridge-execution", "version": "0.1.0"},
+            "clientInfo": {"name": "municipal-agent-execution", "version": "0.1.0"},
         })
         logger.info(
             f"MCP server {self.config.name} initialized: "

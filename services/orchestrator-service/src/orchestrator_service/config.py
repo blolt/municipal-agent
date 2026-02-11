@@ -13,7 +13,7 @@ class Settings(BaseSettings):
     )
 
     # Database configuration (same as Context Service)
-    database_url: str = "postgresql://postgres:postgres@localhost:5433/agentic_bridge"
+    database_url: str = "postgresql://postgres:postgres@localhost:5433/municipal_agent"
 
     # Context Service integration
     context_service_url: str = "http://localhost:8001"

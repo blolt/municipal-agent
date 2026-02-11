@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "agentic-bridge"
+name = "municipal-agent"
 version = "0.1.0"
-description = "Agentic Bridge - Microservices Architecture for AI Agents"
+description = "Municipal Agent - AI-powered municipal zoning assistant"
 authors = ["Your Name <you@example.com>"]
 readme = "README.md"
 packages = []

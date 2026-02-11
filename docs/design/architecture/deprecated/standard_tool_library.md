@@ -6,7 +6,7 @@
 
 ## 0. Overview
 
-The **Standard Tool Library** is a collection of "batteries-included" capabilities available to every agent in the Agentic Bridge system. Just as a standard library in a programming language provides essential functions (I/O, Math, Networking), this library provides the fundamental actions an agent needs to operate autonomously, plan its work, and interact with its environment.
+The **Standard Tool Library** is a collection of "batteries-included" capabilities available to every agent in the Municipal Agent system. Just as a standard library in a programming language provides essential functions (I/O, Math, Networking), this library provides the fundamental actions an agent needs to operate autonomously, plan its work, and interact with its environment.
 
 These tools are implemented as **MCP Servers** and are loaded by default into the Execution Service.
 

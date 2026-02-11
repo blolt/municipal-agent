@@ -4,7 +4,7 @@
 
 ## 0. Overview
 
-This document defines standards and best practices for end-to-end (E2E) testing in the Agentic Bridge system. E2E tests verify complete user workflows across all services, from message input through agent processing to response delivery. These tests provide the highest confidence that the system delivers value to users.
+This document defines standards and best practices for end-to-end (E2E) testing in the Municipal Agent system. E2E tests verify complete user workflows across all services, from message input through agent processing to response delivery. These tests provide the highest confidence that the system delivers value to users.
 
 ## 0.1 Glossary
 
@@ -129,7 +129,7 @@ docker compose down
 |------|-----------------|---------|
 | `test_simple_conversation` | Two-turn conversation, thread context maintained | `golden_path` |
 | `test_file_operation_workflow` | Agent reads a file via natural language request | `golden_path` |
-| `test_multi_turn_context_retention` | Agent remembers "Agentic Bridge" across turns | `golden_path`, `slow` |
+| `test_multi_turn_context_retention` | Agent remembers "Municipal Agent" across turns | `golden_path`, `slow` |
 | `test_tool_discovery_and_execution` | Tools are discovered + file write/read works | `golden_path` |
 
 ### 3.3 Test Markers
@@ -164,7 +164,7 @@ assert response.status is not None
 assert len(response.text) > 0
 
 # Bad: Exact text matching
-assert response.text == "The Agentic Bridge project..."  # Will break
+assert response.text == "The Municipal Agent project..."  # Will break
 ```
 
 ### 4.3 Timeouts
@@ -211,7 +211,7 @@ For golden path tests that involve agent reasoning:
 
 | Symptom | Likely Cause | Fix |
 |---------|-------------|-----|
-| `Services did not become healthy in time` | Ollama model not pulled | `docker exec agentic-bridge-ollama ollama pull llama3.2:3b` |
+| `Services did not become healthy in time` | Ollama model not pulled | `docker exec municipal-agent-ollama ollama pull llama3.2:3b` |
 | `httpx.ReadTimeout` | Ollama first response slow | Increase client timeout or pre-warm |
 | `assert len(response.text) > 0` fails | Agent returned empty response | Check orchestrator logs: `docker compose logs orchestrator-service` |
 | File operations fail | Sandbox volume not mounted | Verify `workspace` volume in `docker compose ps` |

@@ -1,6 +1,6 @@
-# Agentic Bridge
+# Municipal Agent
 
-A microservices architecture for autonomous AI agents that bridges unstructured human intent with deterministic business logic.
+An AI-powered municipal zoning assistant built on a streaming microservices architecture.
 
 ## Architecture
 

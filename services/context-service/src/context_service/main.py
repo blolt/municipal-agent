@@ -49,7 +49,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="Context Service",
-    description="State Management and Knowledge Retrieval for Agentic Bridge",
+    description="State Management and Knowledge Retrieval for Municipal Agent",
     version="0.1.0",
     lifespan=lifespan,
 )

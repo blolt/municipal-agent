@@ -1,4 +1,4 @@
-# Agentic Bridge: System Architecture & Technology Stack
+# Municipal Agent: System Architecture & Technology Stack
 
 > **DEPRECATED** (2026-02-07): This is the original system architecture document. It has been superseded by the rewritten `system_architecture.md` in `docs/design/architecture/`. Preserved for historical reference.
 
@@ -6,7 +6,7 @@
 
 ## 0. Customer Purpose & High-Level Overview
 
-The **Agentic Bridge** system is designed to solve a critical enterprise challenge: bridging the gap between unstructured human intent and structured, deterministic business logic.
+The **Municipal Agent** system is designed to solve a critical enterprise challenge: bridging the gap between unstructured human intent and structured, deterministic business logic.
 
 ### Core Value Propositions
 1.  **Operational Efficiency:** Automates complex workflows that previously required human intervention to translate "fuzzy" requests (emails, chats) into precise, domain-specific technical tool execution and database actions.

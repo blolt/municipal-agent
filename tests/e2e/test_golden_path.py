@@ -77,7 +77,7 @@ def test_multi_turn_context_retention(harness, unique_thread_id):
     """
     # Turn 1: Establish context
     response1 = harness.send_message(
-        message="I'm working on a project called 'Agentic Bridge'",
+        message="I'm working on a project called 'Municipal Agent'",
         thread_id=unique_thread_id,
     )
     assert response1.status is not None
@@ -88,8 +88,8 @@ def test_multi_turn_context_retention(harness, unique_thread_id):
         thread_id=unique_thread_id,
     )
     assert response2.status is not None
-    # Agent should remember "Agentic Bridge"
-    assert "agentic" in response2.text.lower() or "bridge" in response2.text.lower()
+    # Agent should remember "Municipal Agent"
+    assert "municipal" in response2.text.lower() or "agent" in response2.text.lower()
 
 
 @pytest.mark.e2e
