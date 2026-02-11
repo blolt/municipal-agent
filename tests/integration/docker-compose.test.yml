@@ -1,0 +1,110 @@
+version: '3.8'
+
+services:
+  postgres:
+    build:
+      context: ../../
+      dockerfile: services/context-service/Dockerfile
+    container_name: integration-test-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: test_password
+      POSTGRES_DB: integration_test_db
+    ports:
+      - "5434:5432"
+    volumes:
+      - ../../services/context-service/migrations:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  redis:
+    image: redis:7-alpine
+    container_name: integration-test-redis
+    ports:
+      - "6380:6379"
+    healthcheck:
+      test: [ "CMD", "redis-cli", "ping" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  context-service:
+    build:
+      context: ../../
+      dockerfile: services/context-service/Dockerfile.app
+    container_name: integration-test-context-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:test_password@postgres:5432/integration_test_db
+      REDIS_URL: redis://redis:6379
+      LOG_LEVEL: DEBUG
+      PORT: 8001
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  execution-service:
+    build:
+      context: ../../
+      dockerfile: services/execution-service/Dockerfile
+    container_name: integration-test-execution-service
+    depends_on:
+      redis:
+        condition: service_healthy
+    environment:
+      REDIS_URL: redis://redis:6379
+      LOG_LEVEL: DEBUG
+      PORT: 8002
+      SANDBOX_DIRECTORY: "/app/sandbox"
+    ports:
+      - "8002:8002"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8002/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  orchestrator-service:
+    build:
+      context: ../../
+      dockerfile: services/orchestrator-service/Dockerfile
+    container_name: integration-test-orchestrator-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      context-service:
+        condition: service_healthy
+      execution-service:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:test_password@postgres:5432/integration_test_db
+      REDIS_URL: redis://redis:6379
+      CONTEXT_SERVICE_URL: http://context-service:8001
+      EXECUTION_SERVICE_URL: http://execution-service:8002
+      # Use fake key for tests or mock mode if supported
+      OPENAI_API_KEY: "sk-test-key"
+      OLLAMA_BASE_URL: "http://host.docker.internal:11434"
+      LOG_LEVEL: DEBUG
+      PORT: 8000
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    ports:
+      - "8000:8000"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5

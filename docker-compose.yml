@@ -1,0 +1,151 @@
+services:
+  postgres:
+    build:
+      context: ./services/context-service
+      dockerfile: Dockerfile # This builds the PostgreSQL image with AGE + pgvector
+    container_name: agentic-bridge-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: agentic_bridge
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: agentic-bridge-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    healthcheck:
+      test: [ "CMD", "ollama", "list" ]
+      interval: 10s
+      timeout: 10s
+      start_period: 30s
+      retries: 5
+
+  context-service:
+    build:
+      context: .
+      dockerfile: services/context-service/Dockerfile.app # This builds the Context Service application
+    container_name: agentic-bridge-context-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_bridge
+      DATABASE_POOL_MIN_SIZE: 2
+      DATABASE_POOL_MAX_SIZE: 10
+      SERVICE_AUTH_SECRET: ${SERVICE_AUTH_SECRET:-dev-secret-change-me}
+      LOG_LEVEL: INFO
+      DEBUG: false
+    ports:
+      - "8001:8001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001/health" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+  execution-service:
+    build:
+      context: .
+      dockerfile: services/execution-service/Dockerfile
+    container_name: agentic-bridge-execution-service
+    depends_on:
+      context-service:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    environment:
+      PORT: 8002
+      SERVICE_AUTH_SECRET: ${SERVICE_AUTH_SECRET:-dev-secret-change-me}
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      CONTEXT_SERVICE_URL: http://context-service:8001
+      OLLAMA_BASE_URL: http://ollama:11434
+      LOG_LEVEL: INFO
+      MCP_CONFIG_PATH: config/mcp_servers.json
+      DEFAULT_TIMEOUT: 30
+      SANDBOX_DIRECTORY: /workspace
+      MAX_CONCURRENT_EXECUTIONS: 10
+    ports:
+      - "8002:8002"
+    volumes:
+      - workspace:/workspace
+    healthcheck:
+      test: [ "CMD", "python", "-c", "import requests; requests.get('http://localhost:8002/health')" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+  orchestrator-service:
+    build:
+      context: .
+      dockerfile: services/orchestrator-service/Dockerfile
+    container_name: agentic-bridge-orchestrator-service
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+      context-service:
+        condition: service_healthy
+      execution-service:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://postgres:postgres@postgres:5432/agentic_bridge
+      CONTEXT_SERVICE_URL: http://context-service:8001
+      EXECUTION_SERVICE_URL: http://execution-service:8002
+      OLLAMA_BASE_URL: http://ollama:11434
+      SERVICE_AUTH_SECRET: ${SERVICE_AUTH_SECRET:-dev-secret-change-me}
+      # App config
+      PORT: 8000
+      LOG_LEVEL: INFO
+      DEBUG: "false"
+    ports:
+      - "8000:8000"
+    volumes:
+      - workspace:/workspace
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8000/health" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 15s
+      retries: 3
+
+  discord-service:
+    build:
+      context: .
+      dockerfile: services/discord-service/Dockerfile
+    container_name: agentic-bridge-discord-service
+    environment:
+      DISCORD_BOT_TOKEN: ${DISCORD_BOT_TOKEN:-}
+      DISCORD_APPLICATION_ID: ${DISCORD_APPLICATION_ID:-}
+      GATEWAY_SERVICE_URL: http://orchestrator-service:8000
+      SERVICE_AUTH_SECRET: ${SERVICE_AUTH_SECRET:-dev-secret-change-me}
+      HEALTH_PORT: 8003
+      LOG_LEVEL: INFO
+      LOG_FORMAT: json
+    ports:
+      - "8003:8003"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8003/health" ]
+      interval: 30s
+      timeout: 10s
+      start_period: 10s
+      retries: 3
+
+volumes:
+  postgres_data:
+  ollama_data:
+  workspace:
